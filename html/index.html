@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Rift HUD</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="hud" class="off pos-left">
+        <div id="stack">
+            <div id="bars"></div>
+            <div id="chips"></div>
+        </div>
+        <div id="vehicle" class="off">
+            <div class="speed"><span id="speed"></span><small id="unit">KM/H</small></div>
+            <div class="track wide"><i id="speedBar"></i></div>
+            <div class="fuel">
+                <svg viewBox="0 0 24 24"><path d="M4 21V5a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v16M3 21h12M14 9h2a2 2 0 0 1 2 2v5a1.5 1.5 0 0 0 3 0V8l-3-3M7 8h4"/></svg>
+                <div class="track thin"><i id="fuelBar"></i></div>
+                <b id="fuelNum"></b>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

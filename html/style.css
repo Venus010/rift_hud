@@ -1,0 +1,327 @@
+:root {
+    --accent: #8b5cf6;
+    --ink: #f6f4ff;
+    --dim: rgba(255, 255, 255, 0.28);
+    --slot: rgba(255, 255, 255, 0.11);
+    --shadow: 0 0.2vh 0.8vh rgba(0, 0, 0, 0.8);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: transparent;
+    font-family: 'Segoe UI', 'Inter', system-ui, sans-serif;
+    user-select: none;
+}
+
+#hud {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+#hud.off {
+    opacity: 0;
+}
+
+#stack, #vehicle {
+    position: absolute;
+    bottom: 3vh;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5vh;
+    isolation: isolate;
+}
+
+#stack::after, #vehicle::after {
+    content: '';
+    position: absolute;
+    inset: -3vh -7vh -3vh -3vh;
+    z-index: -1;
+    background: radial-gradient(ellipse 100% 100% at 0% 50%, rgba(8, 6, 16, 0.6), transparent 72%);
+}
+
+#stack::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: -1.4vh;
+    width: 0.3vh;
+    border-radius: 1vh;
+    background: linear-gradient(180deg, var(--accent), transparent);
+    filter: drop-shadow(0 0 0.6vh var(--accent));
+}
+
+.pos-left #stack {
+    left: 2.6vw;
+}
+
+.pos-left #vehicle {
+    right: 2.2vw;
+    align-items: flex-end;
+}
+
+.pos-left #vehicle::after {
+    inset: -3vh -3vh -3vh -7vh;
+    background: radial-gradient(ellipse 100% 100% at 100% 50%, rgba(8, 6, 16, 0.6), transparent 72%);
+}
+
+.pos-right #stack {
+    right: 2.6vw;
+    align-items: flex-end;
+}
+
+.pos-right #stack::before {
+    left: auto;
+    right: -1.4vh;
+}
+
+.pos-right #stack::after {
+    inset: -3vh -3vh -3vh -7vh;
+    background: radial-gradient(ellipse 100% 100% at 100% 50%, rgba(8, 6, 16, 0.6), transparent 72%);
+}
+
+.pos-right #vehicle {
+    left: 2.2vw;
+}
+
+#bars {
+    display: flex;
+    flex-direction: column;
+    gap: 0.9vh;
+}
+
+.row {
+    display: flex;
+    align-items: center;
+    gap: 1.1vh;
+    animation: appear 0.35s cubic-bezier(0.2, 0.9, 0.3, 1.1);
+}
+
+.row.off, .chip.off {
+    display: none;
+}
+
+.row svg {
+    width: 2.4vh;
+    height: 2.4vh;
+    flex: none;
+    fill: none;
+    stroke: var(--c);
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    filter: drop-shadow(0 0 0.5vh var(--c));
+}
+
+.row.thin svg {
+    width: 1.9vh;
+    height: 1.9vh;
+}
+
+.row b {
+    min-width: 4.2vh;
+    color: var(--ink);
+    font-size: 2.3vh;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    text-shadow: var(--shadow);
+}
+
+.row.thin b {
+    min-width: 4.2vh;
+    font-size: 1.6vh;
+    color: rgba(255, 255, 255, 0.75);
+}
+
+.track {
+    position: relative;
+    overflow: hidden;
+    transform: skewX(-22deg);
+    background: var(--slot);
+    -webkit-mask-image: repeating-linear-gradient(90deg, #000 0, #000 0.62vh, transparent 0.62vh, transparent 0.84vh);
+    mask-image: repeating-linear-gradient(90deg, #000 0, #000 0.62vh, transparent 0.62vh, transparent 0.84vh);
+}
+
+.track i {
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 0;
+    background: var(--c, var(--accent));
+    transition: width 0.45s ease, background 0.2s ease;
+}
+
+.track.big {
+    width: 22vh;
+    height: 1.2vh;
+}
+
+.track.thin {
+    width: 12vh;
+    height: 0.6vh;
+}
+
+.track.wide {
+    width: 24vh;
+    height: 0.8vh;
+    --c: var(--accent);
+}
+
+.bar-wrap {
+    filter: drop-shadow(0 0 0.5vh var(--c));
+}
+
+.row.warn .bar-wrap, .row.warn svg {
+    animation: pulse 0.9s ease-in-out infinite;
+}
+
+#chips {
+    display: flex;
+    gap: 1.9vh;
+}
+
+.chip {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4vh;
+    animation: appear 0.35s cubic-bezier(0.2, 0.9, 0.3, 1.1);
+}
+
+.glyph {
+    position: relative;
+    width: 3.4vh;
+    height: 3.4vh;
+}
+
+.glyph svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    fill: none;
+    stroke-width: 1.7;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.glyph .base {
+    stroke: var(--dim);
+}
+
+.glyph .lit {
+    stroke: var(--c);
+    clip-path: inset(100% 0 0 0);
+    filter: drop-shadow(0 0 0.5vh var(--c));
+    transition: clip-path 0.45s ease, stroke 0.2s ease;
+}
+
+.chip small {
+    min-height: 1.4vh;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 1.25vh;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    text-shadow: var(--shadow);
+}
+
+.chip.warn .glyph {
+    animation: pulse 0.9s ease-in-out infinite;
+}
+
+.chip.talking .glyph {
+    filter: drop-shadow(0 0 0.8vh var(--accent));
+}
+
+.speed {
+    display: flex;
+    align-items: baseline;
+    gap: 0.9vh;
+    color: var(--ink);
+    font-size: 6.2vh;
+    font-weight: 700;
+    font-style: italic;
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+    text-shadow: var(--shadow);
+}
+
+.speed .dim {
+    color: rgba(255, 255, 255, 0.2);
+}
+
+.speed small {
+    color: var(--accent);
+    font-size: 1.5vh;
+    font-weight: 700;
+    letter-spacing: 0.1vh;
+}
+
+#speedBar {
+    filter: drop-shadow(0 0 0.5vh var(--accent));
+}
+
+.fuel {
+    display: flex;
+    align-items: center;
+    gap: 1vh;
+}
+
+.fuel svg {
+    width: 1.9vh;
+    height: 1.9vh;
+    fill: none;
+    stroke: rgba(255, 255, 255, 0.6);
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.fuel b {
+    min-width: 3.4vh;
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 1.5vh;
+    font-weight: 600;
+    text-align: right;
+    text-shadow: var(--shadow);
+}
+
+.fuel.low .track i {
+    background: #ff4d6d;
+}
+
+#vehicle.off {
+    display: none;
+}
+
+@keyframes appear {
+    from {
+        opacity: 0;
+        transform: translateX(-1vh);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+@keyframes pulse {
+    50% {
+        opacity: 0.4;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .row, .chip, .row.warn svg, .row.warn .bar-wrap, .chip.warn .glyph {
+        animation: none;
+    }
+}
